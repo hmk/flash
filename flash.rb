@@ -1,5 +1,5 @@
 require 'sinatra'
 
 get '/' do
-  "Hello from Flash!"
+  "Hello from Flash development!"
 end
