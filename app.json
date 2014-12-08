@@ -1,0 +1,13 @@
+{
+  "name": "Flash",
+  "description": "Fast, shared search for your company. An internal command line.",
+  "keywords": [
+    "small",
+    "fast",
+    "flash",
+    "search",
+    "sinatra"
+  ],
+  "addons": [],
+  "env": {}
+}
