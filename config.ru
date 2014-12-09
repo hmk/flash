@@ -1,2 +1,2 @@
 require './flash'
-run Sinatra::Application
+run Flash
