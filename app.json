@@ -8,6 +8,8 @@
     "search",
     "sinatra"
   ],
-  "addons": [],
+  "addons": [
+    "redistogo:nano"
+  ],
   "env": {}
 }

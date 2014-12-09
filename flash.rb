@@ -5,6 +5,9 @@ require 'ohm'
 require 'redis'
 require 'haml'
 
+# Configure Ohm
+Ohm.redis = Redic.new(ENV["REDISTOGO_URL"]) if production?
+
 class Cache
   def self.set key, value
     Ohm.redis.call("SET", key.to_s, value.to_s)
