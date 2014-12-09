@@ -1,0 +1,10 @@
+%section.container
+  %form{ action: "/config", method: "post" }
+    %ol
+      %li
+        %label{ for: "client_id" } Client ID:
+        %input{ type: "text", name: "google_client_id", value: client_id }
+      %li
+        %label{ for: "client_secret" } Client Secret:
+        %input{ type: "text", name: "google_client_secret", value: client_secret }
+    %input{ type: "submit" }
