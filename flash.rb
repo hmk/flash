@@ -2,34 +2,19 @@ require 'sinatra'
 require 'omniauth'
 require 'omniauth-google-oauth2'
 require 'ohm'
+require 'redis'
 require 'haml'
 
-class DynamicOmniauth
-  # OmniAuth expects the class passed to setup to respond to the #call method.
-  # env - Rack environment
-  def self.call(env)
-    new(env).setup
+class Cache
+  def self.set key, value
+    Ohm.redis.call("SET", key.to_s, value.to_s)
   end
 
-  # Assign variables and create a request object for use later.
-  # env - Rack environment
-  def initialize(env)
-    @env = env
-  end
-
-  # The main purpose of this method is to set the consumer key and secret.
-  def setup
-    @env['omniauth.strategy'].options.merge!(custom_credentials)
-  end
-
-  # Use the subdomain in the request to find the account with credentials
-  def custom_credentials
-    {
-      client_id: Ohm.redis.call("GET", "google_client_id"),
-      client_secret: Ohm.redis.call("GET", "google_client_secret")
-    }
+  def self.get key
+    Ohm.redis.call("GET", key.to_s)
   end
 end
+
 
 class Flash < Sinatra::Application
 
@@ -40,20 +25,18 @@ class Flash < Sinatra::Application
   end
 
   post '/config' do
-    Ohm.redis.call("SET", "google_client_id", params[:google_client_id])
-    Ohm.redis.call("SET", "google_client_secret", params[:google_client_secret])
+    Cache.set(:google_client_id, params[:google_client_id])
+    Cache.set(:google_client_secret, params[:google_client_secret])
     redirect to '/'
-  end
-
-  # Sandbox (todelete)
-  get '/test' do
-    "<p>id: `#{Ohm.redis.call("GET", "google_client_id")}`</p><p>`#{Ohm.redis.call("GET", "google_client_secret")}`</p>"
   end
 
   # User Authentication
   enable :sessions
   use OmniAuth::Builder do
-    provider :google_oauth2, setup: DynamicOmniauth
+    provider :google_oauth2, setup: ->(env) do
+      env['omniauth.strategy'].options.client_id = Cache.get(:google_client_id)
+      env['omniauth.strategy'].options.client_secret = Cache.get(:google_client_secret)
+    end
   end
 
   get '/login' do
@@ -61,10 +44,14 @@ class Flash < Sinatra::Application
   end
 
   get '/auth/google_oauth2/callback' do
-    env["omniauth.auth"].info.email
+    content_type 'text/plain'
+    request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
   end
 
-  # cache of
+  get '/auth/failure' do
+    content_type 'text/plain'
+    request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
+  end
 
 
   # Development

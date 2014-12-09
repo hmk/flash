@@ -5,6 +5,7 @@ gem 'haml'
 gem 'ohm'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+gem 'redis'
 gem 'sinatra'
 
 

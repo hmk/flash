@@ -45,6 +45,7 @@ GEM
       rack
     redic (1.1.1)
       hiredis
+    redis (3.1.0)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -61,4 +62,5 @@ DEPENDENCIES
   omniauth
   omniauth-google-oauth2
   pry
+  redis
   sinatra
