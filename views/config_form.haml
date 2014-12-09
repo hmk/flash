@@ -1,11 +1,16 @@
 %section.container
+  %h1 configure flash
+  %p
+    %span go
+    %a{ href: "https://console.developers.google.com/project" } to google
+    %span to get credentials.
   %form{ action: "/config", method: "post" }
     %ul
       %li
-        %label{ for: "client_id" } Client ID:
+        %label{ for: "client_id" } Google Client ID:
         %input{ type: "text", name: "google_client_id", value: client_id }
       %li
-        %label{ for: "client_secret" } Client Secret:
+        %label{ for: "client_secret" } Google Client Secret:
         %input{ type: "text", name: "google_client_secret", value: client_secret }
       %li
         %label{ for: "company_name" } Company Name:
