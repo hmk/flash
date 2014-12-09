@@ -1,10 +1,20 @@
 %section.container
   %form{ action: "/config", method: "post" }
-    %ol
+    %ul
       %li
         %label{ for: "client_id" } Client ID:
         %input{ type: "text", name: "google_client_id", value: client_id }
       %li
         %label{ for: "client_secret" } Client Secret:
         %input{ type: "text", name: "google_client_secret", value: client_secret }
+      %li
+        %label{ for: "company_name" } Company Name:
+        %input{ type: "text", name: "company_name", value: company_name }
+      %li
+        %label{ for: "regex_matcher" } Regex Matcher some_user_name@/
+        %input{ type: "text", name: "regex_matcher", value: regex_matcher, placeholder: "google\\.com"}
+        %label
+          %span / (see:
+          %a{href: "http://rubular.com"} rubular.com
+          %span )
     %input{ type: "submit" }

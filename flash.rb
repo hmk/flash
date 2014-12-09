@@ -19,14 +19,32 @@ end
 class Flash < Sinatra::Application
 
   get '/' do
-    client_id = Ohm.redis.call("GET", "google_client_id")
-    client_secret = Ohm.redis.call("GET", "google_client_secret")
-    haml :config_form, locals: { client_id: client_id, client_secret: client_secret}
+    # redirect to config if the config vars are not set (this should only happen once)
+    required_config_vars = [:google_client_id,:google_client_secret, :company_name, :regex_matcher]
+    required_config_vars.each do |config_var_name|
+      if Cache.get(config_var_name).nil?
+        redirect to '/config'
+      end
+    end
+    # force login if user is not logged in
+    redirect to('/login') unless logged_in?
+    redirect to('/unauthorized') unless logged_in_and_matches_regex?
+    "hi! your email is set as: #{session[:email].to_s} which matches the regex"
+  end
+
+  get '/config' do
+    client_id = Cache.get(:google_client_id)
+    client_secret = Cache.get(:google_client_secret)
+    company_name = Cache.get(:company_name)
+    regex_matcher = Cache.get(:regex_matcher)
+    haml :config_form, locals: { client_id: client_id, client_secret: client_secret, company_name: company_name, regex_matcher: regex_matcher }
   end
 
   post '/config' do
     Cache.set(:google_client_id, params[:google_client_id])
     Cache.set(:google_client_secret, params[:google_client_secret])
+    Cache.set(:company_name, params[:company_name])
+    Cache.set(:regex_matcher, params[:regex_matcher])
     redirect to '/'
   end
 
@@ -40,17 +58,36 @@ class Flash < Sinatra::Application
   end
 
   get '/login' do
-    "this is the page for logging in"
+    haml :force_login, locals: { company_name: Cache.get(:company_name) }
+  end
+
+  get '/unauthorized' do
+    "You are not authorized to use this application"
+  end
+
+  get '/logout' do
+    session[:email] = nil
+    redirect('/')
   end
 
   get '/auth/google_oauth2/callback' do
-    content_type 'text/plain'
-    request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
+    session[:email] = env['omniauth.auth'].info.email
+    redirect('/')
   end
 
   get '/auth/failure' do
     content_type 'text/plain'
-    request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
+    "failure: "+ request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
+  end
+
+  def logged_in?
+    !!session[:email]
+  end
+
+  def logged_in_and_matches_regex?
+    return false unless logged_in?
+    domain_name = session[:email].split("@", 2).last
+    domain_name =~ Regexp.new(Cache.get(:regex_matcher))
   end
 
 
