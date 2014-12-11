@@ -7,6 +7,7 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'redis'
 gem 'sinatra'
+gem 'sinatra-contrib'
 
 
 group :development do

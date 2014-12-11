@@ -1,0 +1,12 @@
+%form{ action: "/commands", method: "post" }
+  %ul
+    %li
+      %label{ for: "name" } Name:
+      %input{ type: "text", name: "name" }
+    %li
+      %label{ for: "url" } URL:
+      %input{ type: "text", name: "url" }
+    %li
+      %label{ for: "description" } Description:
+      %input{ type: "text", name: "description" }
+  %input{ type: "submit" }

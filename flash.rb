@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/namespace'
 require 'omniauth'
 require 'omniauth-google-oauth2'
 require 'ohm'
@@ -18,6 +19,13 @@ class Cache
   end
 end
 
+class Command < Ohm::Model
+  attribute :name
+  attribute :description
+  attribute :url
+
+  index :name
+end
 
 class Flash < Sinatra::Application
 
@@ -35,6 +43,30 @@ class Flash < Sinatra::Application
     "hi! your email is set as: #{session[:email].to_s} which matches the regex"
   end
 
+  # Commands
+  namespace '/commands' do
+    # List Commands
+    get do
+      haml :'commands/index', locals: { commands: Command.all }
+    end
+
+    # Form for new Command
+    get '/new' do
+      haml :'commands/new'
+    end
+
+    # Create a new Command
+    post do
+      command = Command.new(name: params[:name], url: params[:url], description: params[:description])
+      if command.save
+        redirect to('/commands')
+      else
+        "there was an error saving your command"
+      end
+    end
+  end
+
+  # Onboarding / Config
   get '/config' do
     client_id = Cache.get(:google_client_id)
     client_secret = Cache.get(:google_client_secret)
