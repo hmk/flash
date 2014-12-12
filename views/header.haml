@@ -1,4 +1,14 @@
-%header.navigation
-  .navigation-wrapper
-    %a.logo{href: "#"}
-      %img{:alt => "Logo Image", :src => "https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png"}
+%header.centered-navigation
+  .centered-navigation-wrapper
+    %ul.centered-navigation-menu
+      %li.nav-link
+        %a{:href => "/about"} About
+      %li.nav-link
+        %a{:href => "/setup"} Setup
+      %li.nav-link.logo
+        %a.logo{:href => "/search"}
+          %img{:alt => "Logo image", :src => image_path('lightning.png')}/
+      %li.nav-link
+        %a{:href => "/commands"} Commands
+      %li.nav-link
+        %a{href: "/config"} Configure

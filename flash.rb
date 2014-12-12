@@ -144,7 +144,7 @@ class Flash < Sinatra::Application
 
   # Assets
   set :root, File.dirname(__FILE__)
-  set :assets_precompile, %w(application.css)
+  set :assets_precompile, %w(application.css, *.png)
   set :assets_css_compressor, :scss
   register Sinatra::AssetPipeline
 

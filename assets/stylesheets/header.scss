@@ -1,56 +1,34 @@
-
-header.navigation {
-  $navigation-padding: 1em;
-  $navigation-background: $dark-gray;
-  $navigation-color: transparentize(white, 0.3);
-  $navigation-color-hover: white;
-  $navigation-height: 60px;
-  $navigation-nav-button-background: $base-accent-color;
-  $navigation-nav-button-background-hover: lighten($navigation-background, 10);
-  $navigation-nav-button-border: 1px solid lighten($navigation-nav-button-background, 20);
-  $navigation-search-background: lighten($navigation-background, 5);
-  $navigation-search-border: 1px solid darken($navigation-background, 5);
-  $navigation-active-link-color: transparentize(white, 0.5);
-  $navigation-submenu-padding: 1em;
-  $navigation-submenu-width: 12em;
+.centered-navigation {
+  $centered-navigation-padding: 1em;
+  $centered-navigation-logo-height: 2.5em;
+  $centered-navigation-background: #F8E49B;
+  $centered-navigation-color: transparentize($base-font-color, 0.3);
+  $centered-navigation-color-hover: $base-font-color;
+  $centered-navigation-height: 60px;
+  $centered-navigation-item-padding: 1em;
+  $centered-navigation-submenu-padding: 1em;
+  $centered-navigation-submenu-width: 12em;
+  $centered-navigation-item-nudge: 2.2em;
   $horizontal-bar-mode: $large-screen;
 
-  background-color: $navigation-background;
-  border-bottom: 1px solid darken($navigation-background, 10);
-  height: $navigation-height;
+  background-color: $centered-navigation-background;
+  border-bottom: 1px solid darken($centered-navigation-background, 6);
+  font-family: $serif;
+  height: $centered-navigation-height;
   width: 100%;
-  z-index: 999;
+  z-index: 9999;
 
-  .navigation-wrapper {
-    @include clearfix;
-    @include outer-container;
-    position: relative;
-    z-index: 9999;
-  }
-
-  .logo {
-    float: left;
-    max-height: $navigation-height;
-    padding-left: $navigation-padding;
-    padding-right: 2em;
-
-    img {
-      max-height: $navigation-height;
-      padding: .8em 0;
-    }
-  }
 
   // Mobile view
 
-  .navigation-menu-button {
-    color: $navigation-color;
+  .centered-navigation-menu-button {
+    color: $centered-navigation-color;
     display: block;
     float: right;
-    font-family: $sans-serif;
     font-weight: 700;
-    line-height: $navigation-height;
+    line-height: $centered-navigation-height;
     margin: 0;
-    padding-right: 1em;
+    padding-right: $centered-navigation-submenu-padding;
     text-transform: uppercase;
 
     @include media ($horizontal-bar-mode) {
@@ -58,76 +36,93 @@ header.navigation {
     }
 
     &:hover {
-      color: $navigation-color-hover;
+      color: $centered-navigation-color-hover;
     }
   }
+
 
   // Nav menu
 
-  .nav {
-    z-index: 9999999;
-    float: none;
-    @include media ($horizontal-bar-mode) {
-      float: left;
-    }
+  .centered-navigation-wrapper {
+    @include outer-container;
+    @include clearfix;
+    position: relative;
+    z-index: 999;
   }
 
-  ul#navigation-menu {
-    -webkit-transform-style: preserve-3d; // stop webkit flicker
+  ul.centered-navigation-menu {
+    -webkit-transform-style: preserve-3d;
+    // stop webkit flicker
     clear: both;
     display: none;
     margin: 0 auto;
     overflow: visible;
     padding: 0;
     width: 100%;
-    z-index: 9999;
+    z-index: 99999;
 
     @include media ($horizontal-bar-mode) {
-      display: inline;
-      margin: 0;
-      padding: 0;
+      display: block;
+      text-align: center;
     }
   }
 
+
   // The nav items
 
+  .nav-link:first-child {
+    @include media($horizontal-bar-mode) {
+      margin-left: $centered-navigation-item-nudge;
+    }
+  }
+
   ul li.nav-link {
-    background: $navigation-background;
+    background: $centered-navigation-background;
     display: block;
-    line-height: $navigation-height;
+    line-height: $centered-navigation-height;
     overflow: hidden;
-    padding-right: .8em;
+    padding-right: $centered-navigation-submenu-padding;
     text-align: right;
     width: 100%;
     z-index: 9999;
 
-    @include media ($horizontal-bar-mode) {
+    @include media($horizontal-bar-mode) {
       background: transparent;
       display: inline;
-      line-height: $navigation-height;
-      text-decoration: none;
-      width: auto;
+      line-height: $centered-navigation-height;
+
+      a {
+        padding-right: $centered-navigation-item-padding;
+      }
     }
 
     a {
-      color: $navigation-color;
+      color: $centered-navigation-color;
       display: inline-block;
-      font-weight: 400;
 
-      @include media ($horizontal-bar-mode) {
-        padding-right: 1em;
-      }
 
       &:hover {
-        color: $navigation-color-hover;
+        color: $centered-navigation-color-hover;
       }
     }
   }
 
-  .active-nav-item a {
-    border-bottom: 1px solid $navigation-active-link-color;
-    padding-bottom: 3px;
+  li.logo.nav-link {
+    display: none;
+    line-height: 0;
+
+    @include media($large-screen) {
+      display: inline;
+    }
   }
+
+  .logo img {
+    margin-bottom: -$centered-navigation-logo-height / 3;
+    max-height: $centered-navigation-logo-height;
+    opacity: .6;
+    padding: 3px;
+  }
+
 
   // Sub menus
 
@@ -135,7 +130,7 @@ header.navigation {
     padding-right: 0;
 
     @include media($large-screen) {
-      padding-right: $navigation-submenu-padding;
+      padding-right: $centered-navigation-submenu-padding;
     }
 
     > ul > li:first-child a  {
@@ -143,7 +138,7 @@ header.navigation {
     }
 
     a {
-      margin-right: $navigation-submenu-padding;
+      margin-right: $centered-navigation-submenu-padding;
     }
 
     > a {
@@ -152,8 +147,8 @@ header.navigation {
 
     > a:after {
       @include position(absolute, auto -.4em auto auto);
+      color: $centered-navigation-color;
       content: '\25BE';
-      color: $navigation-color;
     }
   }
 
@@ -162,7 +157,7 @@ header.navigation {
     padding-right: 0;
 
     a {
-      padding-right: .8em;
+      padding-right: $centered-navigation-submenu-padding;
     }
 
     > a {
@@ -170,14 +165,14 @@ header.navigation {
       position: relative;
 
       @include media($large-screen) {
-        margin-right: $navigation-submenu-padding;
+        margin-right: $centered-navigation-submenu-padding;
       }
 
       &:after {
         content: '›';
         font-size: 1.2em;
         position: absolute;
-        right: $navigation-submenu-padding / 2;
+        right: $centered-navigation-submenu-padding / 2;
       }
     }
 
@@ -186,7 +181,7 @@ header.navigation {
     }
 
     @include media($horizontal-bar-mode) {
-      padding-right: .8em;
+      padding-right: $centered-navigation-submenu-padding;
       position: relative;
     }
   }
@@ -196,14 +191,14 @@ header.navigation {
     padding-left: 0;
 
     @include media($horizontal-bar-mode) {
-      left: -$navigation-submenu-padding;
+      left: -$centered-navigation-submenu-padding;
       position: absolute;
       top: 1.5em;
     }
 
     .submenu {
       @include media($horizontal-bar-mode) {
-        left: $navigation-submenu-width - .2em;
+        left: $centered-navigation-submenu-width - .2em;
         top: 0;
       }
     }
@@ -213,7 +208,7 @@ header.navigation {
       padding-right: 0;
 
       @include media($horizontal-bar-mode) {
-        line-height: $navigation-height / 1.3;
+        line-height: $centered-navigation-height / 1.3;
 
         &:first-child > a {
           border-top-left-radius: $base-border-radius;
@@ -228,102 +223,17 @@ header.navigation {
       }
 
       a {
-        background-color: darken($navigation-background, 3);
+        background-color: darken($centered-navigation-background, 3);
         display: inline-block;
         text-align: right;
         width: 100%;
 
         @include media($horizontal-bar-mode) {
-          background-color: $navigation-background;
-          padding-left: $navigation-submenu-padding;
+          background-color: $centered-navigation-background;
+          padding-left: $centered-navigation-submenu-padding;
           text-align: left;
-          width: $navigation-submenu-width;
+          width: $centered-navigation-submenu-width;
         }
-      }
-    }
-  }
-
-  // Elements on the far right
-
-  .navigation-tools {
-    @include clearfix;
-    display: block;
-    padding-right: $navigation-padding;
-    padding-left: $navigation-padding/2;
-    clear: both;
-    background: #505050;
-
-    @include media($large-screen) {
-      background: transparent;
-      float: right;
-      clear: none;
-    }
-  }
-
-  .sign-up {
-    @extend button;
-    margin-top: 1.2em;
-    float: right;
-    display: inline;
-    font-size: .8em;
-    text-transform: uppercase;
-    padding: .75em 1em;
-  }
-
-  // Search bar
-
-  .search-bar {
-    $search-bar-border-color: $base-border-color;
-    $search-bar-border: 1px solid $search-bar-border-color;
-    $search-bar-background: lighten($search-bar-border-color, 10);
-
-    padding: .85em .6em;
-    width: 60%;
-    float: left;
-
-    .search-and-submit {
-      position: relative;
-
-      input[type=search] {
-        background: $navigation-search-background;
-        border: $navigation-search-border;
-        padding: .6em .8em;
-        font-size: .9em;
-        font-style: italic;
-        color: $navigation-color;
-        border-radius: $base-border-radius * 2;
-        margin: 0;
-
-        @include media($large-screen) {
-          width: 100%;
-        }
-      }
-      
-      button[type=submit] {
-        @include button(flat, $navigation-search-background);
-        position: absolute;
-        top: 0.3em;
-        right: 0.3em;
-        bottom: 0.3em;
-        left: auto;
-        outline: none;
-        padding: 0 15px;
-
-        img {
-          height: 12px;
-          opacity: .7;
-        }
-      }
-    }
-
-    @include media($horizontal-bar-mode) {
-      width: 16em;
-      position: relative;
-      display: inline-block;
-
-      input {
-        @include box-sizing(border-box);
-        display: block;
       }
     }
   }
