@@ -1,0 +1,10 @@
+/**
+  * This is in `application.css.scss`
+  */
+
+@import 'bourbon';
+@import 'neat';
+
+section {
+  @include outer-container;
+}

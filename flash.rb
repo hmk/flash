@@ -1,10 +1,6 @@
-require 'sinatra'
-require 'sinatra/namespace'
-require 'omniauth'
-require 'omniauth-google-oauth2'
-require 'ohm'
-require 'redis'
-require 'haml'
+require 'rubygems'
+require 'bundler'
+Bundler.require(:default, :assets, ENV["RACK_ENV"] || 'development')
 
 # Configure Ohm
 Ohm.redis = Redic.new(ENV["REDISTOGO_URL"]) if production?
@@ -146,6 +142,11 @@ class Flash < Sinatra::Application
     domain_name =~ Regexp.new(Cache.get(:regex_matcher))
   end
 
+  # Assets
+  set :root, File.dirname(__FILE__)
+  set :assets_precompile, %w(application.css)
+  set :assets_css_compressor, :scss
+  register Sinatra::AssetPipeline
 
   # Development
   configure :development do
