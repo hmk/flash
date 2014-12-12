@@ -43,6 +43,21 @@ class Flash < Sinatra::Application
     "hi! your email is set as: #{session[:email].to_s} which matches the regex"
   end
 
+  # Search
+  get '/search' do
+    begin
+      command_name, *args = params[:q].split(/\s+/)
+      command = Command.find(name: command_name).first
+      if !command
+        return "no command found with that name `#{command_name}`"
+      end
+      redirect_url = command.url % args
+      redirect redirect_url, 303
+    rescue
+      return "error parsing your query: `#{params[:q]}`"
+    end
+  end
+
   # Commands
   namespace '/commands' do
     # List Commands
