@@ -2,11 +2,11 @@
   %ul
     %li
       %label{ for: "name" } Name:
-      %input{ type: "text", name: "name" }
+      %input{ type: "text", name: "name", value: command.try(:name) }
     %li
       %label{ for: "url" } URL:
-      %input{ type: "text", name: "url" }
+      %input{ type: "text", name: "url", value: command.try(:url) }
     %li
       %label{ for: "description" } Description:
-      %input{ type: "text", name: "description" }
+      %input{ type: "text", name: "description", value: command.try(:description) }
   %input{ type: "submit" }

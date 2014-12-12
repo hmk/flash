@@ -65,9 +65,15 @@ class Flash < Sinatra::Application
       haml :'commands/index', locals: { commands: Command.all }
     end
 
+    get '/:id/edit' do
+      command_id = params[:id]
+      command = Command[command_id]
+      haml :'commands/form', locals: { command: command }
+    end
+
     # Form for new Command
     get '/new' do
-      haml :'commands/new'
+      haml :'commands/new', locals: { command: Command.new }
     end
 
     # Create a new Command
