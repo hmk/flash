@@ -4,7 +4,4 @@
 
 @import 'bourbon';
 @import 'neat';
-
-section {
-  @include outer-container;
-}
+@import 'base/base';

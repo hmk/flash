@@ -2,6 +2,10 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.6.4)
+    bitters (0.10.1)
+      bourbon (>= 3.2)
+      sass (>= 3.2)
+      thor
     bourbon (4.0.2)
       sass (~> 3.3)
       thor
@@ -100,6 +104,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bitters
   bourbon (~> 4.0.2)
   haml
   neat (~> 1.7.0)

@@ -13,6 +13,7 @@ gem 'sinatra-contrib'
 group :assets do
   gem 'bourbon', '~> 4.0.2'
   gem 'neat', '~> 1.7.0'
+  gem 'bitters'
 end
 
 group :development do
