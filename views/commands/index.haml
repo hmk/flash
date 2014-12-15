@@ -1,8 +1,24 @@
-%section
-  %h1 Commands
-  - Command.all.each do |command|
-    %p
-      %b= command.name
-      %span= command.url
-      %i= command.description
+%section#commands
+  .line-behind-text
+    %h1 Commands
+  %table
+    %col{ width: '100px' }
+    %col{ width: '500px' }
+    %col
+    %col{ width: '100px' }
+    %tr
+      %th Name
+      %th Url
+      %th Description
+      %th -
+    - Command.all.each do |command|
+      %tr
+        %td
+          %b= command.name
+        %td
+          %span= command.url
+        %td
+          %i= command.description
+        %td
+          %a{ href: "/commands/#{command.id}/edit" } edit
   %a{ href:"/commands/new" } New Command

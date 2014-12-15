@@ -2,9 +2,9 @@
  * This is custom css for Flash
  */
 
- body {
+body {
    margin: 0px;
- }
+}
 
 @import 'header';
 @import 'search';
@@ -12,4 +12,33 @@
 section {
   @include outer-container;
   margin-bottom: 3em;
+
+  .line-behind-text {
+    margin-top: 10px;
+    border-bottom: 1px solid #CACACA;
+    text-align: center;
+    margin-bottom: 4.5em;
+    &:before, &:after {
+      box-sizing: inherit;
+    }
+    h1 {
+      background: white;
+      color: gray;
+      display: inline-block;
+      font-size: 1em;
+      font-family: "Helvetica Neue", sans-serif;
+      font-weight: 500;
+      text-rendering: optimizeLegibility;
+      text-transform: uppercase;
+      top: 12px;
+      padding: 0 10px;
+      position: relative;
+    }
+  }
+}
+
+ol.default {
+  list-style-type: decimal;
+  margin: 0 10px;
+  padding: 0 10px;
 }

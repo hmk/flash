@@ -1,10 +1,13 @@
 #search {
+
   $search-background-top: #D2DDBE;
   $search-background-bottom: #D2DDBE;
   $gradient-angle: 10deg;
 
+  h1 {
+    background: $search-background-top;
+  }
   @include background(linear-gradient($gradient-angle, $search-background-bottom, $search-background-top));
-  @include outer-container;
 
   .search-inner {
     @include outer-container;
