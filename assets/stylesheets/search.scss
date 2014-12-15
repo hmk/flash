@@ -1,0 +1,18 @@
+#search {
+  $search-background-top: #D2DDBE;
+  $search-background-bottom: #D2DDBE;
+  $gradient-angle: 10deg;
+
+  @include background(linear-gradient($gradient-angle, $search-background-bottom, $search-background-top));
+  @include outer-container;
+
+  .search-inner {
+    @include outer-container;
+    @include clearfix;
+    padding-top: 8em;
+    padding-bottom: 8em;
+    margin: auto;
+    @include span-columns(6);
+    @include shift(3);
+  }
+}

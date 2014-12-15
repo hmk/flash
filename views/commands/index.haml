@@ -1,7 +1,8 @@
-%h1 Commands
-- Command.all.each do |command|
-  %p
-    %b= command.name
-    %span= command.url
-    %i= command.description
-%a{ href:"/commands/new" } New Command
+%section
+  %h1 Commands
+  - Command.all.each do |command|
+    %p
+      %b= command.name
+      %span= command.url
+      %i= command.description
+  %a{ href:"/commands/new" } New Command

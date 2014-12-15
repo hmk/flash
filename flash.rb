@@ -36,11 +36,12 @@ class Flash < Sinatra::Application
     # force login if user is not logged in
     redirect to('/login') unless logged_in?
     redirect to('/unauthorized') unless logged_in_and_matches_regex?
-    "hi! your email is set as: #{session[:email].to_s} which matches the regex"
+    haml :main
   end
 
   # Search
   get '/search' do
+    return haml :search unless params[:q]
     begin
       command_name, *args = params[:q].split(/\s+/)
       command = Command.find(name: command_name).first
@@ -52,6 +53,14 @@ class Flash < Sinatra::Application
     rescue
       return "error parsing your query: `#{params[:q]}`"
     end
+  end
+
+  get '/about' do
+    haml :about
+  end
+
+  get '/setup' do
+    haml :setup
   end
 
   # Commands
