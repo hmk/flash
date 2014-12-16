@@ -29,7 +29,7 @@ class Flash < Sinatra::Application
 
   get '/' do
     # redirect to config if the config vars are not set (this should only happen once)
-    required_config_vars = [:google_client_id,:google_client_secret, :company_name, :regex_matcher, :url, :app_name]
+    required_config_vars = [:google_client_id,:google_client_secret, :company_name, :regex_matcher, :url, :app_name, :admin_users]
     required_config_vars.each do |config_var_name|
       if Cache.get(config_var_name).nil?
         redirect to '/config'
@@ -100,10 +100,13 @@ class Flash < Sinatra::Application
 
   # Onboarding / Config
   get '/config' do
+    return haml :admin_required if Cache.get(:admin_users) &&
+      !is_admin_user?
     client_id = Cache.get(:google_client_id)
     client_secret = Cache.get(:google_client_secret)
     company_name = Cache.get(:company_name)
     regex_matcher = Cache.get(:regex_matcher)
+    admin_users = Cache.get(:admin_users)
     url = Cache.get(:url)
     app_name = Cache.get(:app_name)
     haml :config_form, locals: {
@@ -111,6 +114,7 @@ class Flash < Sinatra::Application
       client_secret: client_secret,
       company_name: company_name,
       regex_matcher: regex_matcher,
+      admin_users: admin_users,
       url: url,
       app_name: app_name
     }
@@ -121,6 +125,7 @@ class Flash < Sinatra::Application
     Cache.set(:google_client_secret, params[:google_client_secret])
     Cache.set(:company_name, params[:company_name])
     Cache.set(:regex_matcher, params[:regex_matcher])
+    Cache.set(:admin_users, params[:admin_users])
     Cache.set(:url, params[:url])
     Cache.set(:app_name, params[:app_name])
     redirect to '/'
@@ -156,6 +161,10 @@ class Flash < Sinatra::Application
   get '/auth/failure' do
     content_type 'text/plain'
     "failure: "+ request.env['omniauth.auth'].to_hash.inspect rescue "No Data"
+  end
+
+  def is_admin_user?
+    Cache.get(:admin_users).split(',').any?{|admin_email| admin_email == session[:email]}
   end
 
   def logged_in?

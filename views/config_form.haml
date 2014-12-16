@@ -32,6 +32,8 @@
           %p
             %code some_user_name@/YOUR_REGEX/
     %input{ type: "text", name: "regex_matcher", value: regex_matcher, placeholder: "e.g. google\\.com" }
+    %label{ for: "admin_users" } Authorized Admin Email Addresses (comma separated)
+    %input{ type: "text", name: "admin_users", value: admin_users, placeholder: "admin1@yourcompany.com, admin2@yourcompany.com"}
     .line-behind-text
       %h1 App Information
     %label{ for: "url" } URL
