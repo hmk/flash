@@ -8,7 +8,7 @@
   $centered-navigation-item-padding: 1em;
   $centered-navigation-submenu-padding: 1em;
   $centered-navigation-submenu-width: 12em;
-  $centered-navigation-item-nudge: 2.2em;
+  $centered-navigation-item-nudge: 6.8em;
   $horizontal-bar-mode: $large-screen;
 
   background-color: $centered-navigation-background;
@@ -17,29 +17,6 @@
   height: $centered-navigation-height;
   width: 100%;
   z-index: 9999;
-
-
-  // Mobile view
-
-  .centered-navigation-menu-button {
-    color: $centered-navigation-color;
-    display: block;
-    float: right;
-    font-weight: 700;
-    line-height: $centered-navigation-height;
-    margin: 0;
-    padding-right: $centered-navigation-submenu-padding;
-    text-transform: uppercase;
-
-    @include media ($horizontal-bar-mode) {
-      display: none;
-    }
-
-    &:hover {
-      color: $centered-navigation-color-hover;
-    }
-  }
-
 
   // Nav menu
 
