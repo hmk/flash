@@ -19,7 +19,9 @@ class Command < Ohm::Model
   attribute :name
   attribute :description
   attribute :url
+  attribute :example
 
+  unique :name
   index :name
 end
 
@@ -48,19 +50,11 @@ class Flash < Sinatra::Application
       if !command
         return "no command found with that name `#{command_name}`"
       end
-      redirect_url = command.url % args
+      redirect_url = command.url % args.to_a.join('%20')
       redirect redirect_url, 303
     rescue
       return "error parsing your query: `#{params[:q]}`"
     end
-  end
-
-  get '/about' do
-    haml :about
-  end
-
-  get '/setup' do
-    haml :setup
   end
 
   # Commands
@@ -83,7 +77,19 @@ class Flash < Sinatra::Application
 
     # Create a new Command
     post do
-      command = Command.new(name: params[:name], url: params[:url], description: params[:description])
+      attributes = { name: params[:name], url: params[:url], description: params[:description], example: params[:example] }
+      # old command
+      if params[:id]
+        command = Command[params[:id]]
+        if command.update(attributes)
+          redirect to('/#commands')
+        else
+          "there was an error updating your command"
+        end
+      end
+
+      # new command
+      command = Command.new(attributes)
       if command.save
         redirect to('/commands')
       else
@@ -119,7 +125,7 @@ class Flash < Sinatra::Application
   end
 
   get '/login' do
-    haml :force_login, locals: { company_name: Cache.get(:company_name) }
+    haml :force_login, locals: { company_name: Cache.get(:company_name) }, layout: false
   end
 
   get '/unauthorized' do

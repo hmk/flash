@@ -2,11 +2,16 @@
   %ul
     %li
       %label{ for: "name" } Name:
-      %input{ type: "text", name: "name", value: command.try(:name) }
+      %input{ type: "text", name: "name", value: command.name }
     %li
       %label{ for: "url" } URL:
-      %input{ type: "text", name: "url", value: command.try(:url) }
+      %input{ type: "text", name: "url", value: command.url }
     %li
       %label{ for: "description" } Description:
-      %input{ type: "text", name: "description", value: command.try(:description) }
+      %input{ type: "text", name: "description", value: command.description }
+    %li
+      %label{ for: "description" } Example Query Parameter:
+      %input{ type: "text", name: "example", value: command.example }
+  - unless command.new?
+    %input{ type: "hidden", name: "id", value: command.id }
   %input{ type: "submit" }

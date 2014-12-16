@@ -8,15 +8,15 @@
     %col{ width: '100px' }
     %tr
       %th Name
-      %th Url
+      %th Example
       %th Description
-      %th -
+      %th
     - Command.all.each do |command|
       %tr
         %td
           %b= command.name
         %td
-          %span= command.url
+          %a{ href: "/search?q=#{command.name}%20#{command.example}"}= "#{command.name} #{command.example}"
         %td
           %i= command.description
         %td
