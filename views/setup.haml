@@ -15,13 +15,13 @@
     %default-ul
       %li
         Add a new search engine
-        %code Flash
+        %code "#{Cache.get(:app_name)}"
       %li
         Keyword
-        %code lollipopapp.herokuapp.com
+        %code "#{Cache.get(:url).gsub(/^https?:\/\//,'')}"
       %li
         Url with %s in place
-        %code http://lollipopapp.herokuapp.com/search?q=%s
+        %code= "#{Cache.get(:url)}/search?q=%s"
     %li
       Hit
       %b Done

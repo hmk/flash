@@ -29,7 +29,7 @@ class Flash < Sinatra::Application
 
   get '/' do
     # redirect to config if the config vars are not set (this should only happen once)
-    required_config_vars = [:google_client_id,:google_client_secret, :company_name, :regex_matcher]
+    required_config_vars = [:google_client_id,:google_client_secret, :company_name, :regex_matcher, :url, :app_name]
     required_config_vars.each do |config_var_name|
       if Cache.get(config_var_name).nil?
         redirect to '/config'
@@ -104,7 +104,16 @@ class Flash < Sinatra::Application
     client_secret = Cache.get(:google_client_secret)
     company_name = Cache.get(:company_name)
     regex_matcher = Cache.get(:regex_matcher)
-    haml :config_form, locals: { client_id: client_id, client_secret: client_secret, company_name: company_name, regex_matcher: regex_matcher }
+    url = Cache.get(:url)
+    app_name = Cache.get(:app_name)
+    haml :config_form, locals: {
+      client_id: client_id,
+      client_secret: client_secret,
+      company_name: company_name,
+      regex_matcher: regex_matcher,
+      url: url,
+      app_name: app_name
+    }
   end
 
   post '/config' do
@@ -112,6 +121,8 @@ class Flash < Sinatra::Application
     Cache.set(:google_client_secret, params[:google_client_secret])
     Cache.set(:company_name, params[:company_name])
     Cache.set(:regex_matcher, params[:regex_matcher])
+    Cache.set(:url, params[:url])
+    Cache.set(:app_name, params[:app_name])
     redirect to '/'
   end
 

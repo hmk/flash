@@ -1,9 +1,7 @@
 %section
-  .line-behind-text
-    %h1 configure flash
   %form{ action: "/config", method: "post" }
-
-    %h3 Google Credentials
+    .line-behind-text
+      %h1 Google Credentials
     %p
       %span go
       %a{ href: "https://console.developers.google.com/project" } to google
@@ -12,7 +10,8 @@
     %input{ type: "text", name: "google_client_id", value: client_id }
     %label{ for: "client_secret" } Google Client Secret
     %input{ type: "text", name: "google_client_secret", value: client_secret }
-    %h3 Company Information
+    .line-behind-text
+      %h1 Company Information
     %label{ for: "company_name" } Company Name
     %input{ type: "text", name: "company_name", value: company_name }
     %label{ for: "regex_matcher" }
@@ -32,6 +31,21 @@
             symbol in the email address of a user connected through Google:
           %p
             %code some_user_name@/YOUR_REGEX/
-    %input{ type: "text", name: "regex_matcher", value: regex_matcher, placeholder: "e.g. google\\.com"}
+    %input{ type: "text", name: "regex_matcher", value: regex_matcher, placeholder: "e.g. google\\.com" }
+    .line-behind-text
+      %h1 App Information
+    %label{ for: "url" } URL
+    %input{ type: "text", name: "url", value: url, placeholder: "e.g. http://myflashapp.herokuapp.com" }
+    %label{ for: "url" }
+      App Name
+      .tooltip-item
+        %code ?
+        .tooltip
+          %p
+            This is used as the shortname to help the user set up the app on the
+            %code About
+            page.
+          %p Works best when the first few letters match the first few letters of the url above.
+    %input{ type: "text", name: "app_name", value: app_name, placeholder: 'MyFlashApp' }
 
     %input{ type: "submit" }
