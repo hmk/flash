@@ -164,7 +164,8 @@ class Flash < Sinatra::Application
   end
 
   def is_admin_user?
-    Cache.get(:admin_users).split(',').any?{|admin_email| admin_email == session[:email]}
+    return false unless logged_in?
+    Cache.get(:admin_users).split(',').any?{ |admin_email| admin_email == session[:email] }
   end
 
   def logged_in?
