@@ -153,7 +153,7 @@ class Flash < Sinatra::Application
     redirect('/')
   end
 
-  get '/auth/google_oauth2/callback' do
+  get '/oauth2callback' do
     session[:email] = env['omniauth.auth'].info.email
     redirect('/')
   end
