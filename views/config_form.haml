@@ -2,10 +2,11 @@
   %form{ action: "/config", method: "post" }
     .line-behind-text
       %h1 Google Credentials
-    %p
-      %span go
-      %a{ href: "https://console.developers.google.com/project" } to google
-      %span to get credentials.
+    %p You will need to setup an application to use the Google OAuth API
+    %ol.default
+      %li
+        go to
+        %a{ href: "https://console.developers.google.com/project" } the google developer console
     %label{ for: "client_id" } Google Client ID
     %input{ type: "text", name: "google_client_id", value: client_id }
     %label{ for: "client_secret" } Google Client Secret

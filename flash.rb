@@ -134,7 +134,7 @@ class Flash < Sinatra::Application
   # User Authentication
   enable :sessions
   use OmniAuth::Builder do
-    provider :google_oauth2, setup: ->(env) do
+    provider :google_oauth2, callback_path: '/oauth2callback', setup: ->(env) do
       env['omniauth.strategy'].options.client_id = Cache.get(:google_client_id)
       env['omniauth.strategy'].options.client_secret = Cache.get(:google_client_secret)
     end
