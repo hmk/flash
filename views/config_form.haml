@@ -1,25 +1,37 @@
-%section.container
-  %h1 configure flash
-  %p
-    %span go
-    %a{ href: "https://console.developers.google.com/project" } to google
-    %span to get credentials.
+%section
+  .line-behind-text
+    %h1 configure flash
   %form{ action: "/config", method: "post" }
-    %ul
-      %li
-        %label{ for: "client_id" } Google Client ID:
-        %input{ type: "text", name: "google_client_id", value: client_id }
-      %li
-        %label{ for: "client_secret" } Google Client Secret:
-        %input{ type: "text", name: "google_client_secret", value: client_secret }
-      %li
-        %label{ for: "company_name" } Company Name:
-        %input{ type: "text", name: "company_name", value: company_name }
-      %li
-        %label{ for: "regex_matcher" } Regex Matcher some_user_name@/
-        %input{ type: "text", name: "regex_matcher", value: regex_matcher, placeholder: "google\\.com"}
-        %label
-          %span / (see:
-          %a{href: "http://rubular.com"} rubular.com
-          %span )
+
+    %h3 Google Credentials
+    %p
+      %span go
+      %a{ href: "https://console.developers.google.com/project" } to google
+      %span to get credentials.
+    %label{ for: "client_id" } Google Client ID
+    %input{ type: "text", name: "google_client_id", value: client_id }
+    %label{ for: "client_secret" } Google Client Secret
+    %input{ type: "text", name: "google_client_secret", value: client_secret }
+    %h3 Company Information
+    %label{ for: "company_name" } Company Name
+    %input{ type: "text", name: "company_name", value: company_name }
+    %label{ for: "regex_matcher" }
+      Regex Email Domain Filter
+      .tooltip-item
+        %code ?
+        .tooltip
+          %p
+            This is used to filter out email addresses that do not match your company's domain.
+          %p
+            You can use
+            %a{href: "http://rubular.com"} rubular.com
+            to test that the regular expression matches correctly.
+          %p
+            The regex match is performed on all characters after the
+            %code @
+            symbol in the email address of a user connected through Google:
+          %p
+            %code some_user_name@/YOUR_REGEX/
+    %input{ type: "text", name: "regex_matcher", value: regex_matcher, placeholder: "e.g. google\\.com"}
+
     %input{ type: "submit" }

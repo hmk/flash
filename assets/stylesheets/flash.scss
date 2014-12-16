@@ -8,6 +8,7 @@ body {
 
 @import 'header';
 @import 'search';
+@import 'tooltip';
 
 section {
   @include outer-container;
