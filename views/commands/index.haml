@@ -5,12 +5,14 @@
     %col{ width: '100px' }
     %col{ width: '500px' }
     %col
-    %col{ width: '100px' }
+    - if command_editing_enabled?
+      %col{ width: '100px' }
     %tr
       %th Name
       %th Example
       %th Description
-      %th
+      - if command_editing_enabled?
+        %th
     - Command.all.each do |command|
       %tr
         %td
@@ -19,6 +21,8 @@
           %a{ href: "/search?q=#{command.name}%20#{command.example}"}= "#{command.name} #{command.example}"
         %td
           %i= command.description
-        %td
-          %a{ href: "/commands/#{command.id}/edit" } edit
-  %a{ href:"/commands/new" } New Command
+        - if command_editing_enabled?
+          %td
+            %a{ href: "/commands/#{command.id}/edit" } edit
+  - if command_editing_enabled?
+    %a{ href:"/commands/new" } New Command

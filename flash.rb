@@ -29,7 +29,7 @@ class Flash < Sinatra::Application
 
   get '/' do
     # redirect to config if the config vars are not set (this should only happen once)
-    required_config_vars = [:google_client_id,:google_client_secret, :company_name, :regex_matcher, :url, :app_name, :admin_users]
+    required_config_vars = [:google_client_id,:google_client_secret, :company_name, :regex_matcher, :url, :app_name]
     required_config_vars.each do |config_var_name|
       if Cache.get(config_var_name).nil?
         redirect to '/config'
@@ -65,6 +65,7 @@ class Flash < Sinatra::Application
     end
 
     get '/:id/edit' do
+      redirect to('/') unless command_editing_enabled?
       command_id = params[:id]
       command = Command[command_id]
       haml :'commands/form', locals: { command: command }
@@ -72,6 +73,7 @@ class Flash < Sinatra::Application
 
     # Form for new Command
     get '/new' do
+      redirect to('/') unless command_editing_enabled?
       haml :'commands/new', locals: { command: Command.new }
     end
 
@@ -100,8 +102,7 @@ class Flash < Sinatra::Application
 
   # Onboarding / Config
   get '/config' do
-    return haml :admin_required if Cache.get(:admin_users) &&
-      !is_admin_user?
+    return haml :admin_required if Cache.get(:admin_users) && !Cache.get(:admin_users).empty? && !is_admin_user?
     client_id = Cache.get(:google_client_id)
     client_secret = Cache.get(:google_client_secret)
     company_name = Cache.get(:company_name)
@@ -116,7 +117,8 @@ class Flash < Sinatra::Application
       regex_matcher: regex_matcher,
       admin_users: admin_users,
       url: url,
-      app_name: app_name
+      app_name: app_name,
+      command_editing_enabled: command_editing_enabled?
     }
   end
 
@@ -128,6 +130,8 @@ class Flash < Sinatra::Application
     Cache.set(:admin_users, params[:admin_users])
     Cache.set(:url, params[:url])
     Cache.set(:app_name, params[:app_name])
+    param_command_creation_enabled = !!params.include?("command_editing_enabled")
+    Cache.set(:command_editing_enabled, param_command_creation_enabled)
     redirect to '/'
   end
 
@@ -165,7 +169,7 @@ class Flash < Sinatra::Application
 
   def is_admin_user?
     return false unless logged_in?
-    Cache.get(:admin_users).split(',').any?{ |admin_email| admin_email == session[:email] }
+    Cache.get(:admin_users).split(',').any?{|admin_email| admin_email == session[:email]}
   end
 
   def logged_in?
@@ -176,6 +180,11 @@ class Flash < Sinatra::Application
     return false unless logged_in?
     domain_name = session[:email].split("@", 2).last
     domain_name =~ Regexp.new(Cache.get(:regex_matcher))
+  end
+
+  def command_editing_enabled?
+    return true if is_admin_user?
+    Cache.get(:command_editing_enabled) != "false"
   end
 
   # Assets

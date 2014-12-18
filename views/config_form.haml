@@ -33,8 +33,6 @@
           %p
             %code some_user_name@/YOUR_REGEX/
     %input{ type: "text", name: "regex_matcher", value: regex_matcher, placeholder: "e.g. google\\.com" }
-    %label{ for: "admin_users" } Authorized Admin Email Addresses (comma separated)
-    %input{ type: "text", name: "admin_users", value: admin_users, placeholder: "admin1@yourcompany.com, admin2@yourcompany.com"}
     .line-behind-text
       %h1 App Information
     %label{ for: "url" } URL
@@ -50,5 +48,25 @@
             page.
           %p Works best when the first few letters match the first few letters of the url above.
     %input{ type: "text", name: "app_name", value: app_name, placeholder: 'MyFlashApp' }
-
-    %input{ type: "submit" }
+    %label
+      Users can create Commands
+      .tooltip-item
+        %code ?
+        .tooltip
+          %p When disabled, only authorized admins can create/edit commands.
+    %label.label-switch
+      %input{ type: "checkbox", name: "command_editing_enabled", checked: command_editing_enabled }
+      .checkbox
+    %label{ for: "admin_users" }
+      %i optional
+      Authorized Admin Email Addresses
+      %i **warning**
+      .tooltip-item
+        %code ?
+        .tooltip
+          %p A comma-separated list of administrators that have access to the "configure" page.
+          %p DO NOT set this until you have confirmed the OAuth credentials above work.
+          %p This could potentially lock you out of the application (if OAuth does not work, or you add the wrong email addresses here)
+    %input{ type: "text", name: "admin_users", value: admin_users, placeholder: "admin1@yourcompany.com, admin2@yourcompany.com"}
+    %p
+      %input{ type: "submit", value: "Save Changes" }

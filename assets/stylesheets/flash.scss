@@ -9,6 +9,7 @@ body {
 @import 'header';
 @import 'search';
 @import 'tooltip';
+@import 'label_switch';
 
 section {
   @include outer-container;
