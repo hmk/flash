@@ -2,15 +2,59 @@
   %form{ action: "/config", method: "post" }
     .line-behind-text
       %h1 Google Credentials
-    %p You will need to setup an application to use the Google OAuth API
+    %p Follow these steps to setup your Flash application to use the Google OAuth API:
     %ol.default
       %li
         go to
         %a{ href: "https://console.developers.google.com/project" } the google developer console
-    %label{ for: "client_id" } Google Client ID
-    %input{ type: "text", name: "google_client_id", value: client_id }
-    %label{ for: "client_secret" } Google Client Secret
-    %input{ type: "text", name: "google_client_secret", value: client_secret }
+      %li
+        click on
+        %code Create Project
+        %img{ src: image_path('create_project.png') }
+      %li Name your project (whatever you called this application on heroku is a good idea)
+      %li Wait for the project to be created (you will be brought to the Project Dashboard)
+      %li
+        Click on
+        %code APIs & Auth
+        on the left menu and then click on
+        %code credentials
+        %img{ src: image_path('project_dashboard_api_credentials.png') }
+      %li
+        Click on
+        %code Create new Client ID
+      %li
+        Choose
+        %code Web Application
+      %li
+        Click
+        %code configure consent screen
+      %li
+        Fill out the Consent Screen form. The
+        %code Product Name
+        should roughly match this application's name (to avoid confusion)
+      %li
+        Click
+        %code Save
+      %li
+        Use the Heroku URL to fill the "authorized javascript origins" portion of the final Create Client ID form
+        %img{ src: image_path('create_project.png') }
+      %li
+        Leave the callback set as
+        %code https://flashmycompanyname.herokuapp.com/oauth2callback
+      %li
+        Click
+        %code Create Client ID
+      %li
+        %p Use the credentials to fill the form fields below (warning: do not also skip the next step!)
+        %img{ src: image_path('client_id_and_secret.png')}
+        %label{ for: "client_id" } Google Client ID
+        %input{ type: "text", name: "google_client_id", value: client_id }
+        %label{ for: "client_secret" } Google Client Secret
+        %input{ type: "text", name: "google_client_secret", value: client_secret }
+      %li
+        You must also turn on the
+        %code Google+ API
+        from the APIs section of the menu. Otherwise, OAuth will not work correctly.
     .line-behind-text
       %h1 Company Information
     %label{ for: "company_name" } Company Name
@@ -36,7 +80,7 @@
     .line-behind-text
       %h1 App Information
     %label{ for: "url" } URL
-    %input{ type: "text", name: "url", value: url, placeholder: "e.g. http://myflashapp.herokuapp.com" }
+    %input{ type: "text", name: "url", value: url, placeholder: "e.g. http://flashmycompanyname.herokuapp.com" }
     %label{ for: "url" }
       App Name
       .tooltip-item
@@ -47,7 +91,7 @@
             %code About
             page.
           %p Works best when the first few letters match the first few letters of the url above.
-    %input{ type: "text", name: "app_name", value: app_name, placeholder: 'MyFlashApp' }
+    %input{ type: "text", name: "app_name", value: app_name, placeholder: 'FlashMyCompanyName' }
     %label
       Users can create Commands
       .tooltip-item
